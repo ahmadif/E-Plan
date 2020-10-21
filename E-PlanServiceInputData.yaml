@@ -1,0 +1,631 @@
+openapi: 3.0.3
+info:
+  title: SICK E-Plan Service Input Data Profile
+  description: A profile to describe the REST interface of a data source to provide the input data required for the SICK E-Plan service.
+  version: 0.0.1.20201009140000C
+servers:
+  - url: '{location}/'
+    variables:
+      location:
+        default: 'http://localhost'
+        description: The service location URI.
+paths:
+  '/eplan/inputdata/{productId}':
+    get:
+      description: Get the required input data for the SICK E-Plan service.
+      tags:
+        - E-Plan Service Input Data
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+            format: uri
+          description: The SICK product ID.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EPlanInputData'
+              examples:
+                '1054155':
+                  value:
+                    ProductID: 'http://pid.sick.com/A234DD8/B67DLZ8N4'
+                    SwitchingOutput:
+                      - n.a.
+                    SafetyRelatedParameters:
+                      PerformanceLevel: n.a.
+                      B10dParameter: n.a.
+                    DigitalOutputFunction: n.a.
+                    NumberOfConnectors: 4
+                    ConnectorAssignment:
+                      - ConName: ''
+                        ConDescription: Power
+                        MechanicalConnectionHead: Plug
+                        PhysicalConType: M12
+                        LogicalConType:
+                          - Standard
+                        NumberOfPins: 5
+                        PinType: male
+                        WireCrossSection: n.a.
+                        PinWireAssignment:
+                          - PinDesignation: '1'
+                            WireColor: n.a.
+                            PinDescription: Vs
+                          - PinDesignation: '2'
+                            WireColor: n.a.
+                            PinDescription: Vs heat.
+                          - PinDesignation: '3'
+                            WireColor: n.a.
+                            PinDescription: GND
+                          - PinDesignation: '4'
+                            WireColor: n.a.
+                            PinDescription: Reserved
+                          - PinDesignation: '5'
+                            WireColor: n.a.
+                            PinDescription: GND heat.
+                      - ConName: ''
+                        ConDescription: Ethernet
+                        MechanicalConnectionHead: Plug
+                        PhysicalConType: M12
+                        LogicalConType:
+                          - Ethernet
+                        NumberOfPins: 4
+                        PinType: female
+                        WireCrossSection: n.a.
+                        PinWireAssignment:
+                          - PinDesignation: '1'
+                            WireColor: n.a.
+                            PinDescription: TX+
+                          - PinDesignation: '2'
+                            WireColor: n.a.
+                            PinDescription: Rx+
+                          - PinDesignation: '3'
+                            WireColor: n.a.
+                            PinDescription: TX–
+                          - PinDesignation: '4'
+                            WireColor: n.a.
+                            PinDescription: Rx–
+                      - ConName: ''
+                        ConDescription: Data
+                        MechanicalConnectionHead: Plug
+                        PhysicalConType: M12
+                        LogicalConType:
+                          - RS-232
+                          - RS-422
+                        NumberOfPins: 8
+                        PinType: male
+                        WireCrossSection: n.a.
+                        PinWireAssignment:
+                          - PinDesignation: '1'
+                            WireColor: n.a.
+                            PinDescription: RD–/RxD
+                          - PinDesignation: '2'
+                            WireColor: n.a.
+                            PinDescription: TD–/TxD
+                          - PinDesignation: '3'
+                            WireColor: n.a.
+                            PinDescription: RD+
+                          - PinDesignation: '4'
+                            WireColor: n.a.
+                            PinDescription: TD+
+                          - PinDesignation: '5'
+                            WireColor: n.a.
+                            PinDescription: GND RS
+                          - PinDesignation: '6'
+                            WireColor: n.a.
+                            PinDescription: Reserved
+                          - PinDesignation: '7'
+                            WireColor: n.a.
+                            PinDescription: IN Sync
+                          - PinDesignation: '8'
+                            WireColor: n.a.
+                            PinDescription: GND IN Sync
+                      - ConName: ''
+                        ConDescription: I/O
+                        MechanicalConnectionHead: Plug
+                        PhysicalConType: M12
+                        LogicalConType:
+                          - Standard
+                        NumberOfPins: 8
+                        PinType: female
+                        WireCrossSection: n.a.
+                        PinWireAssignment:
+                          - PinDesignation: '1'
+                            WireColor: n.a.
+                            PinDescription: IN1
+                          - PinDesignation: '2'
+                            WireColor: n.a.
+                            PinDescription: Reserved
+                          - PinDesignation: '3'
+                            WireColor: n.a.
+                            PinDescription: GND IN1
+                          - PinDesignation: '4'
+                            WireColor: n.a.
+                            PinDescription: OUT1
+                          - PinDesignation: '5'
+                            WireColor: n.a.
+                            PinDescription: OUT2
+                          - PinDesignation: '6'
+                            WireColor: n.a.
+                            PinDescription: OUT3 /OUT Sync
+                          - PinDesignation: '7'
+                            WireColor: n.a.
+                            PinDescription: GND OUT 1 ...3
+                          - PinDesignation: '8'
+                            WireColor: n.a.
+                            PinDescription: Vs OUT
+                    AdjustmentElement: n.a.
+                    EnclosureRating:
+                      - IP65
+                      - IP67
+                    OperationInstruction:
+                      - Url: 'https://cdn.sick.com/media/docs/4/14/514/operating_instructions_lms5xx_laser_measurement_sensors_en_im0037514.pdf'
+                        Language: en_US
+                      - Url: 'https://cdn.sick.com/media/docs/3/13/513/operating_instructions_lms5xx_laser_measurement_sensors_de_im0037513.pdf'
+                        Language: de_DE
+                    ProductInformation:
+                      - Url: 'https://cdn.sick.com/media/docs/6/66/166/product_information_lms5xx_laser_measurement_technology_en_im0038166.pdf'
+                        Language: en_US
+                      - Url: 'https://cdn.sick.com/media/docs/5/65/165/product_information_lms5xx_laser_measurement_technology_de_im0038165.pdf'
+                        Language: de_DE
+                    ProductMetaData:
+                      IdentNumber: '1054155'
+                      Description1:
+                        - Language: en_US
+                          Value: Laser scanner
+                        - Language: de_DE
+                          Value: Laserscanner
+                      Description2:
+                        - Language: en_US
+                          Value: 'Test data, with comma'
+                        - Language: de_DE
+                          Value: 'Testdaten, mit Komma'
+                      DeviceType: LMS511-11100 Lite
+                      ItemUnit:
+                        - Language: en_US
+                          Value: piece
+                        - Language: de_DE
+                          Value: Stück
+                      SupplyVoltage: '24'
+                      VoltageUnit: V
+                      TypeOfVoltage: DC
+                      PowerConsumption: '22'
+                      PowerUnit: W
+                      CurrentConsumption: n.a.
+                      CurrentUnit: n.a.
+                      Width: 155 mm
+                      Height: 185 mm
+                      Depth: 160 mm
+                      Weight: '3.7'
+                      UnitOfWeight: kg
+                      Classification:
+                        - Name: eCl@ss 9.0
+                          Value: '27270913'
+                        - Name: eCl@ss 10.0
+                          Value: '27270913'
+                        - Name: eCl@ss 11.0
+                          Value: '27270913'
+                    ProductFinderCategory:
+                      ProductSegment:
+                        - Language: en_US
+                          Value: Detection and ranging solutions
+                        - Language: de_DE
+                          Value: Mess- und Detektionslösungen
+                      ProductFamilyGroup:
+                        - Language: en_US
+                          Value: 2D LiDAR sensors
+                        - Language: de_DE
+                          Value: 2D-LiDAR-Sensoren
+                      ProductFamily:
+                        - Language: en_US
+                          Value: LMS5xx
+                        - Language: de_DE
+                          Value: LMS5xx
+                    ProductImage:
+                      Url: 'https://cdn.sick.com/media/150/3/13/413/IM0037413.png'
+                      Width: 150
+                      Height: 204
+                '1221950':
+                  value:
+                    ProductID: 'http://pid.sick.com/A234DD8/B67DLZ8N4'
+                    SwitchingOutput:
+                      - PNP
+                      - NPN
+                      - PUSH/PULL
+                    SafetyRelatedParameters:
+                      PerformanceLevel: n.a.
+                      B10dParameter: n.a.
+                    DigitalOutputFunction: via input
+                    NumberOfConnectors: 1
+                    ConnectorAssignment:
+                      - ConName: X1
+                        ConDescription: ''
+                        MechanicalConnectionHead: Cable with plug
+                        PhysicalConType: M12
+                        LogicalConType:
+                          - IO-Link
+                        NumberOfPins: 4
+                        PinType: male
+                        WireCrossSection: '0,75'
+                        PinWireAssignment:
+                          - PinDesignation: '1'
+                            WireColor: BN
+                            PinDescription: L+
+                          - PinDesignation: '2'
+                            WireColor: WH
+                            PinDescription: MF
+                          - PinDesignation: '3'
+                            WireColor: BU
+                            PinDescription: M
+                          - PinDesignation: '4'
+                            WireColor: BK
+                            PinDescription: QL1/C
+                    AdjustmentElement: Blue
+                    EnclosureRating:
+                      - IP66
+                      - IP67
+                    DataSheet:
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_en.pdf'
+                        Language: en_US
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_de.pdf'
+                        Language: de_DE
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_nl.pdf'
+                        Language: nl_NL
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_fr.pdf'
+                        Language: fr_FR
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_ko.pdf'
+                        Language: ko_KR
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_fi.pdf'
+                        Language: fi_FI
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_zf.pdf'
+                        Language: zf_CN
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_da.pdf'
+                        Language: da_DK
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_pl.pdf'
+                        Language: pl_PL
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_zh.pdf'
+                        Language: zh_CN
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_pt.pdf'
+                        Language: pt_PT
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_it.pdf'
+                        Language: it_IT
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_ru.pdf'
+                        Language: ru_RU
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_tr.pdf'
+                        Language: tr_TR
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_es.pdf'
+                        Language: es_ES
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_ja.pdf'
+                        Language: ja_JP
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_sv.pdf'
+                        Language: sv_SE
+                      - Url: 'https://cdn.sick.com/media/pdf/8/48/748/dataSheet_RAY26P-34162930A00_1221950_cs.pdf'
+                        Language: cs_CZ
+                    OperationInstruction:
+                      - Url: 'https://cdn.sick.com/media/docs/7/07/807/operating_instructions_ray26_de_en_es_fr_it_ja_pt_ru_zh_im0081807.pdf'
+                        Language: en_US
+                      - Url: 'https://cdn.sick.com/media/docs/7/07/807/operating_instructions_ray26_de_en_es_fr_it_ja_pt_ru_zh_im0081807.pdf'
+                        Language: de_DE
+                    ProductInformation:
+                      - Url: 'https://cdn.sick.com/media/docs/8/08/808/product_information_reflex_array_multitask_photoelectric_sensors_en_im0032808.pdf'
+                        Language: en_US
+                      - Url: 'https://cdn.sick.com/media/docs/9/09/809/product_information_reflex_array_multitask_photoelectric_sensors_de_im0032809.pdf'
+                        Language: de_DE
+                    ProductMetaData:
+                      IdentNumber: '1221950'
+                      Description1:
+                        - Language: en_US
+                          Value: Reflection light barrier
+                        - Language: de_DE
+                          Value: Reflexions-Lichtschranke
+                      Description2:
+                        - Language: en_US
+                          Value: 'Test data, with comma'
+                        - Language: de_DE
+                          Value: 'Testdaten, mit Komma'
+                      DeviceType: RAY26P-34162930A00
+                      ItemUnit:
+                        - Language: en_US
+                          Value: piece
+                        - Language: de_DE
+                          Value: Stück
+                      SupplyVoltage: 10 ... 30
+                      VoltageUnit: V
+                      TypeOfVoltage: DC
+                      PowerConsumption: n.a.
+                      PowerUnit: n.a.
+                      CurrentConsumption: '25'
+                      CurrentUnit: mA
+                      Width: 24.6 mm
+                      Height: 82.5 mm
+                      Depth: 53.3 mm
+                      Weight: '100'
+                      UnitOfWeight: g
+                      Classification:
+                        - Name: eCl@ss 9.0
+                          Value: '27270902'
+                        - Name: eCl@ss 10.0
+                          Value: '27270902'
+                        - Name: eCl@ss 11.0
+                          Value: '27270902'
+                    ProductFinderCategory:
+                      ProductSegment:
+                        - Language: en_US
+                          Value: Photoelectric sensors
+                        - Language: de_DE
+                          Value: Lichttaster und Lichtschranken
+                      ProductFamilyGroup:
+                        - Language: en_US
+                          Value: Photoelectric sensors
+                        - Language: de_DE
+                          Value: Lichttaster und Lichtschranken
+                      ProductFamily:
+                        - Language: en_US
+                          Value: Reflex Array
+                        - Language: de_DE
+                          Value: Reflex Array
+                    ProductImage:
+                      Url: 'https://www.sick.com/media/ZOOM/2/82/882/IM0081882.png'
+                      Width: 440
+                      Height: 940
+components:
+  schemas:
+    EPlanInputData:
+      type: object
+      properties:
+        ProductID:
+          type: string
+          description: The SICK product ID.
+          example: 'http://pid.sick.com/A234DD8/B67DLZ8N4'
+        SwitchingOutput:
+          type: array
+          description: Type of Switching Output. It could also be empty.
+          items:
+            $ref: '#/components/schemas/EPlanInputData_SwitchingOutput'
+        DigitalOutputFunction:
+          type: string
+          description: Type of Digital Output Function. It could also be empty.
+          enum:
+            - light switching
+            - dark switching
+            - selectable
+            - manual selectable
+            - via input
+            - n.a.
+        SafetyRelatedParameters:
+          $ref: '#/components/schemas/SafetyRelatedParameters'
+        NumberOfConnectors:
+          type: number
+          example: 1
+        ConnectorAssignment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EPlanInputData_ConnectorAssignment'
+        AdjustmentElement:
+          type: string
+          enum:
+            - Potentiometer
+            - TeachButton
+            - Blue
+            - TeachInput
+            - n.a.
+        EnclosureRating:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnclosureRating'
+        DataSheet:
+          type: array
+          items:
+            $ref: '#/components/schemas/EPlanInputData_Documents'
+        OperationInstruction:
+          type: array
+          items:
+            $ref: '#/components/schemas/EPlanInputData_Documents'
+        ProductInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/EPlanInputData_Documents'
+        ProductMetaData:
+          $ref: '#/components/schemas/EPlanInputData_MetaData'
+        ProductFinderCategory:
+          $ref: '#/components/schemas/EPlanInputData_ProductFinder'
+        ProductImage:
+          $ref: '#/components/schemas/EPlanInputData_ProductImage'
+    EPlanInputData_SwitchingOutput:
+      type: string
+      enum:
+        - PNP
+        - NPN
+        - PUSH/PULL
+        - NAMUR
+        - n.a.
+    PinDescription:
+      type: string
+      description: 'Pin and wire functions (Q1, NC, QC, Q_, LD, SO(SenderOff), ET, Q, MF, Q2MF, QA, Q3MF, Q1MF, QL1C, Q1C, Q2MFOUT, MFIN, Q2MFIN, Q3MFIN, TE, +, -, /Q, null, QL1/C, Test)'
+      example: Q1
+    PinType:
+      type: string
+      description: Pin Types
+      enum:
+        - male
+        - female
+        - n.a.
+    LogicalConType:
+      type: array
+      items:
+        type: string
+        description: 'Output Device Types (Standard, Ethernet, Profibus, CAN, IO-Link)'
+        example: Ethernet
+    PhysicalConType:
+      type: string
+      description: 'Harware type for connector plug (M12, M8, RJ45, miniUSB, n.a.)'
+      example: M12
+    Language:
+      type: string
+      description: 'Object language code ($ISO-639-1 + ''_'' + $ISO3166) e.g. de_DE, en_US, fr_FR'
+      example: en_US
+    EPlanInputData_ConnectorAssignment:
+      type: object
+      properties:
+        ConName:
+          description: Device Tag (IEC81346)
+          type: string
+          example: X34
+        ConDescription:
+          type: string
+          example: Input
+        MechanicalConnectionHead:
+          type: string
+          enum:
+            - Cable
+            - Clamp connection
+            - Plug
+            - Cable with plug
+        PhysicalConType:
+          $ref: '#/components/schemas/PhysicalConType'
+        LogicalConType:
+          $ref: '#/components/schemas/LogicalConType'
+        NumberOfPins:
+          type: number
+          example: 1
+        PinType:
+          $ref: '#/components/schemas/PinType'
+        WireCrossSection:
+          description: 'wire cross section in mm2 or ''n.a.'' e.g. ''1,0'', ''0,75'', ''n.a.'''
+          type: string
+          example: '1,0'
+        PinWireAssignment:
+          type: array
+          description: PinWireAssignment has to be sorted by pinDesignation in ascending order.
+          items:
+            $ref: '#/components/schemas/EPlanInputData_PinWireAssignment'
+    EPlanInputData_PinWireAssignment:
+      type: object
+      properties:
+        PinDesignation:
+          type: string
+          description: 'e.g. ''1'', ''2'', ''I1'', ''AI2''.'
+          example: '1'
+        WireColor:
+          description: 'Color code accourding to IEC60757 or ''n.a.'' e.g. WH, BK, GY, n.a.'
+          type: string
+          example: WH
+        PinDescription:
+          $ref: '#/components/schemas/PinDescription'
+    EPlanInputData_Documents:
+      type: object
+      properties:
+        Url:
+          type: string
+          example: /media/docs/7/27/727/Operating_instructions_WTT12LC_Bxx6x_de_en_IM0061727.PDF
+        Language:
+          $ref: '#/components/schemas/Language'
+    EPlanInputData_ProductFinder:
+      type: object
+      properties:
+        ProductSegment:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+        ProductFamilyGroup:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+        ProductFamily:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+    EPlanInputData_MetaData:
+      type: object
+      properties:
+        IdentNumber:
+          type: string
+        Description1:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+        Description2:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+        DeviceType:
+          type: string
+        ItemUnit:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultiLangValue'
+        SupplyVoltage:
+          type: string
+        VoltageUnit:
+          type: string
+        TypeOfVoltage:
+          type: string
+        PowerConsumption:
+          type: string
+        PowerUnit:
+          type: string
+        CurrentConsumption:
+          type: string
+        CurrentUnit:
+          type: string
+        Width:
+          type: string
+        Height:
+          type: string
+        Depth:
+          type: string
+        Weight:
+          type: string
+        UnitOfWeight:
+          type: string
+        Classification:
+          type: array
+          items:
+            $ref: '#/components/schemas/Classification'
+    EPlanInputData_ProductImage:
+      type: object
+      properties:
+        Url:
+          type: string
+          example: /media/150/7/17/017/IM0061017.png
+        Width:
+          type: number
+          example: 640
+        Height:
+          type: number
+          example: 480
+    MultiLangValue:
+      type: object
+      properties:
+        Language:
+          $ref: '#/components/schemas/Language'
+        Value:
+          type: string
+    Classification:
+      type: object
+      properties:
+        Name:
+          type: string
+          example: eCl@ss 9.0
+        Value:
+          type: string
+          example: '27270904'
+    EnclosureRating:
+      type: string
+      description: 'Ingress Protection Code accourding to IEC60529. e.g. IP20, IP44, IP65, IP69K'
+      example: IP65
+    SafetyRelatedParameters:
+      type: object
+      properties:
+        PerformanceLevel:
+          type: string
+          description: Performance level according to ISO 13849-1. For not safety devices or for electro-mechanical safety switches schould be "n.a."
+          example: PL d
+        B10dParameter:
+          type: string
+          description: B10d parameter. Only value. For For electronic devices or for not safety devices schould be "n.a."
+          example: 2 x 10^6
