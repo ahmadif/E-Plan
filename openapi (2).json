@@ -1,0 +1,1168 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DXH REST API",
+    "description": "Profile representing the Node Aggregate response.",
+    "version": "0.02"
+  },
+  "servers": [
+    {
+      "url": "https://dxh-api.uat.misc.k8s.sickcn.net/"
+    },
+    {
+      "url": "https://dxh-api.prod.misc.k8s.sickcn.net/"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/product/{partNumber}/{languages}": {
+      "get": {
+        "description": "Get product nodes data per part number",
+        "tags": [
+          "Aggregated PIM Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "partNumber",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The SICK product part number."
+          },
+          {
+            "in": "path",
+            "name": "languages",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "An array of languages for which to retrieve data."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeArray"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/node/{nodeID}": {
+      "get": {
+        "description": "Retrieves Node item data by ID",
+        "tags": [
+          "Aggregated PIM Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nodeID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "4PM node ID suffixed by language code",
+            "example": "p653505_de"
+          },
+          {
+            "in": "query",
+            "name": "fields",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "needed Fields"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Node"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/childNodes/{parent}": {
+      "get": {
+        "description": "Retrieves Node children by parent ID",
+        "tags": [
+          "Aggregated PIM Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "parent",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Parent 4PM node ID suffixed by language code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeArray"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/allNodes/{nodeID}": {
+      "get": {
+        "description": "Get all language specific Nodes based on nodeId",
+        "tags": [
+          "Aggregated PIM Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "nodeID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "4PM node ID",
+            "example": "p653505"
+          },
+          {
+            "in": "query",
+            "name": "fields",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "needed fields"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeArray"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/erpProduct/{partNumber}/{ssu}": {
+      "get": {
+        "description": "Retrieve SAP Data with PartNumber and Subsidiary",
+        "tags": [
+          "Aggregated ERP Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "partNumber",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The SICK product part number."
+          },
+          {
+            "in": "path",
+            "name": "ssu",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "SICK Subsidiary",
+            "example": "SVD"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAggregate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/erpProducts/{partNumber}": {
+      "get": {
+        "description": "Retrieve SAP Data with PartNumber for all Subsidiaries",
+        "tags": [
+          "Aggregated ERP Data"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "partNumber",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The SICK product part number."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductAggregateArray"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/channels": {
+      "get": {
+        "description": "Get ChannelConfig",
+        "tags": [
+          "Config"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ssu",
+            "schema": {
+              "type": "string"
+            },
+            "description": "get all channels based on ssu",
+            "example": "SVD"
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "schema": {
+              "type": "string"
+            },
+            "description": "get channels based on language",
+            "example": "de"
+          },
+          {
+            "in": "query",
+            "name": "site",
+            "schema": {
+              "type": "string"
+            },
+            "description": "get channels based on site",
+            "example": "de"
+          },
+          {
+            "in": "query",
+            "name": "all",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "get all channels in database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Channel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NodeArray": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Node"
+        }
+      },
+      "Node": {
+        "type": "object",
+        "description": "Product Response element.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "p512146_de"
+          },
+          "Description": {
+            "type": "object",
+            "properties": {
+              "PageTitle": {
+                "type": "string",
+                "example": "Klein-Lichtschranke W16"
+              }
+            }
+          },
+          "MetaData": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "example": "p512146_de"
+              },
+              "Name": {
+                "type": "string",
+                "example": "WTB16I-1H161120A00"
+              },
+              "Level": {
+                "type": "string",
+                "example": "P6"
+              },
+              "PartNumber": {
+                "type": "string",
+                "example": 1218818
+              },
+              "Type": {
+                "type": "string",
+                "example": "Product"
+              }
+            }
+          },
+          "Hierarchy": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "g568268_de"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "PS Products & Solutions"
+                },
+                "Title": {
+                  "type": "string",
+                  "example": "Products & Solutions"
+                },
+                "Type": {
+                  "type": "string",
+                  "example": "PN"
+                }
+              }
+            }
+          },
+          "Images": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "im0073728_100_de"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "W16 WTB16P NextGen"
+                },
+                "Class": {
+                  "type": "string",
+                  "example": "main_image"
+                },
+                "URL": {
+                  "type": "string",
+                  "example": "/media/100/8/28/728/IM0073728.png"
+                },
+                "MimeType": {
+                  "type": "string",
+                  "example": "image/png"
+                },
+                "MediaFormat": {
+                  "type": "string",
+                  "example": "100Wx100H"
+                },
+                "MediaContainer": {
+                  "type": "string",
+                  "example": "im0073728"
+                }
+              }
+            }
+          },
+          "Videos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "video 1107308 de"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "W16 W26 W4F"
+                },
+                "URL": {
+                  "type": "string",
+                  "example": "PnMRXpQcaU0"
+                },
+                "MediaFormat": {
+                  "type": "string",
+                  "example": "sickVideo"
+                },
+                "MediaContainer": {
+                  "type": "string",
+                  "example": "video_1107306"
+                }
+              }
+            }
+          },
+          "Literature": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "de_im0060850.pdf_de"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "MySensor"
+                },
+                "Type": {
+                  "type": "string",
+                  "example": "Flyer"
+                },
+                "PublicationType": {
+                  "type": "string",
+                  "example": "Flyer"
+                },
+                "Description": {
+                  "type": "string",
+                  "example": "MySensor - Mehrwert für Ihre Konstruktion durch kundenspezifische Anpassungen"
+                },
+                "PartNumber": {
+                  "type": "string",
+                  "example": 8018365
+                },
+                "MimeType": {
+                  "type": "string",
+                  "example": "application/pdf"
+                },
+                "MediaTypes": {
+                  "type": "string",
+                  "example": "PDF"
+                },
+                "VisibilitySlot1": {
+                  "type": "string",
+                  "example": "internal"
+                },
+                "VisibilitySlot2": {
+                  "type": "string",
+                  "example": "internalLiterature"
+                },
+                "State": {
+                  "type": "string",
+                  "example": "Intern"
+                },
+                "Size": {
+                  "type": "string",
+                  "example": 441344
+                },
+                "ReleaseDate": {
+                  "type": "string",
+                  "example": "28.07.2015"
+                },
+                "MediaContainer": {
+                  "type": "string",
+                  "example": "de_im0060850.pdf"
+                },
+                "Language": {
+                  "type": "string",
+                  "example": "de"
+                },
+                "URL": {
+                  "type": "string",
+                  "example": "/media/private/0/50/850/flyer_mysensor_de_im0060850.pdf"
+                },
+                "Preview": {
+                  "type": "object",
+                  "properties": {
+                    "URL": {
+                      "type": "string",
+                      "example": "/media/prv/0/50/850/IM0060850.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Software": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "swp570344_de"
+                },
+                "Type": {
+                  "type": "string",
+                  "example": "SDD-Datei"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "SDD Datei WTx16-26_A00"
+                },
+                "Category": {
+                  "type": "string",
+                  "example": "Geraetebeschreibungsdatei"
+                },
+                "Description": {
+                  "type": "string",
+                  "example": "SDD file for WTx16-26_A00"
+                },
+                "MimeType": {
+                  "type": "string",
+                  "example": "application/zip"
+                },
+                "MediaContainer": {
+                  "type": "string",
+                  "example": "swp570344"
+                },
+                "Size": {
+                  "type": "string",
+                  "example": 690176
+                },
+                "URL": {
+                  "type": "string",
+                  "example": "/media/zip/9/79/879/SDD_file_for_WTx16_26_A00_DC0009879.ZIP"
+                },
+                "Preview": {
+                  "type": "object",
+                  "properties": {
+                    "URL": {
+                      "type": "string",
+                      "example": "/media/jpg/p/ip/zip/zip.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "SalesTools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "sof_de_im0064580_de"
+                },
+                "Type": {
+                  "type": "string",
+                  "example": "sof388958"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "Presence Detection Tasks - SIMPLY DETECT ANY OBJECT"
+                },
+                "Category": {
+                  "type": "string",
+                  "example": "Anzeige/Poster/Roll-up"
+                },
+                "URL": {
+                  "type": "string",
+                  "example": "/media/private/0/80/580/advertisement_poster_roll_up_Presence_Detection_Tasks_SIMPLY_DETECT_ANY_OBJECT_de_IM0064580.PDF"
+                },
+                "VisibilitySlot1": {
+                  "type": "string",
+                  "example": "svr43735"
+                },
+                "VisibilitySlot2": {
+                  "type": "string",
+                  "example": "svr388958"
+                },
+                "MimeType": {
+                  "type": "string",
+                  "example": "application/pdf"
+                },
+                "MediaContainer": {
+                  "type": "string",
+                  "example": "sof_de_im0064580"
+                },
+                "Size": {
+                  "type": "string",
+                  "example": 586752
+                },
+                "Preview": {
+                  "type": "object",
+                  "properties": {
+                    "URL": {
+                      "type": "string",
+                      "example": "/media/prv/0/80/580/IM0064580.jpg"
+                    }
+                  }
+                },
+                "Language": {
+                  "type": "string",
+                  "example": "de"
+                }
+              }
+            }
+          },
+          "Relations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ID": {
+                  "type": "string",
+                  "example": "p597264_de"
+                },
+                "RelationType": {
+                  "type": "string",
+                  "example": "Software"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "FieldEcho"
+                },
+                "PartNumber": {
+                  "type": "string",
+                  "example": 1612993
+                }
+              }
+            }
+          },
+          "CustomsData": {
+            "type": "object",
+            "properties": {
+              "Weight": {
+                "type": "object",
+                "properties": {
+                  "Value": {
+                    "type": "object",
+                    "properties": {
+                      "$numberDecimal": {
+                        "type": "string",
+                        "example": 0.136
+                      }
+                    }
+                  },
+                  "Unit": {
+                    "type": "string",
+                    "example": "kg"
+                  }
+                }
+              },
+              "NetWeight": {
+                "type": "object",
+                "properties": {
+                  "Value": {
+                    "type": "object",
+                    "properties": {
+                      "$numberDecimal": {
+                        "type": "string",
+                        "example": 0.136
+                      }
+                    }
+                  },
+                  "Unit": {
+                    "type": "string",
+                    "example": "kg"
+                  }
+                }
+              },
+              "Volume": {
+                "type": "object",
+                "properties": {
+                  "Value": {
+                    "type": "object",
+                    "properties": {
+                      "$numberDecimal": {
+                        "type": "string",
+                        "example": 728
+                      }
+                    }
+                  },
+                  "Unit": {
+                    "type": "string",
+                    "example": "cm3"
+                  }
+                }
+              },
+              "Dimensions": {
+                "type": "object",
+                "properties": {
+                  "Values": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "$numberDecimal": {
+                          "type": "string",
+                          "example": 8
+                        }
+                      }
+                    }
+                  },
+                  "Unit": {
+                    "type": "string",
+                    "example": "cm"
+                  }
+                }
+              },
+              "UnitOfMeasurement": {
+                "type": "object",
+                "properties": {
+                  "abbr": {
+                    "type": "string",
+                    "example": "pce"
+                  },
+                  "measure": {
+                    "type": "string",
+                    "example": "quantity"
+                  },
+                  "system": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "singular": {
+                    "type": "string",
+                    "example": "Piece"
+                  },
+                  "plural": {
+                    "type": "string",
+                    "example": "Pieces"
+                  }
+                }
+              }
+            }
+          },
+          "Properties": {
+            "type": "object",
+            "properties": {
+              "Generic": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "p512146_de"
+                    },
+                    "property": {
+                      "type": "object",
+                      "properties": {
+                        "origin_id": {
+                          "type": "string",
+                          "example": "sequence"
+                        },
+                        "origin_name": {
+                          "type": "string",
+                          "example": "sequence"
+                        },
+                        "external_id": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "origin_data_type": {
+                          "type": "string",
+                          "example": null
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "sequence"
+                        },
+                        "values": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": 10
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "Mapped": {
+                "type": "object",
+                "properties": {
+                  "ProductHull": {
+                    "type": "object",
+                    "properties": {
+                      "HousingDimensions": {
+                        "type": "object",
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "HousingDepth": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "mm"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 42
+                                  }
+                                }
+                              },
+                              "HousingWidth": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "mm"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 20
+                                  }
+                                }
+                              },
+                              "HousingHeight": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "mm"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 55.7
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "HousingHeight": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "mm"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 55.7
+                                  }
+                                }
+                              },
+                              "HousingDiameter": {
+                                "type": "object",
+                                "properties": {
+                                  "Value": {
+                                    "type": "number",
+                                    "description": "the string form of a numeric value",
+                                    "nullable": false
+                                  },
+                                  "Unit": {
+                                    "type": "string",
+                                    "description": "unit of the numeric value",
+                                    "nullable": false
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "Interface": {
+                    "type": "object",
+                    "properties": {
+                      "VoltageSupply": {
+                        "type": "object",
+                        "properties": {
+                          "SupplyVoltage": {
+                            "type": "object",
+                            "properties": {
+                              "SupplyVoltageMin": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "V DC"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 10
+                                  }
+                                }
+                              },
+                              "SupplyVoltageMax": {
+                                "type": "object",
+                                "properties": {
+                                  "Unit": {
+                                    "type": "string",
+                                    "example": "V DC"
+                                  },
+                                  "Value": {
+                                    "type": "number",
+                                    "example": 30
+                                  }
+                                }
+                              },
+                              "SupplyVoltageType": {
+                                "type": "string",
+                                "example": "DC"
+                              }
+                            }
+                          },
+                          "CurrentConsumption": {
+                            "type": "object",
+                            "properties": {
+                              "Unit": {
+                                "type": "string",
+                                "example": "mA"
+                              },
+                              "Value": {
+                                "type": "number",
+                                "example": 30
+                              }
+                            }
+                          },
+                          "CurrentConsumptionCondition": {
+                            "type": "string",
+                            "example": "16 V DC ... 30 V DC ohne Last"
+                          }
+                        }
+                      },
+                      "AdjustmentElement": {
+                        "type": "object",
+                        "properties": {
+                          "AdjustmentElementType": {
+                            "type": "string",
+                            "example": "Teach-in-Taste"
+                          }
+                        }
+                      },
+                      "CommunicationInterface": {
+                        "type": "object",
+                        "properties": {
+                          "CommunicationInterfaceName": {
+                            "type": "string",
+                            "example": "IO-Link"
+                          }
+                        }
+                      },
+                      "InputOutput": {
+                        "type": "object",
+                        "properties": {
+                          "DigitalOutputPhysicElectric": {
+                            "type": "string",
+                            "example": "Gegentakt PNP/NPN"
+                          },
+                          "SwitchingMode": {
+                            "type": "string",
+                            "example": "Hell-/dunkelschaltend"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "AmbientData": {
+                    "type": "object",
+                    "properties": {
+                      "EnclosureRating": {
+                        "type": "object",
+                        "properties": {
+                          "EnclosureRatingIPCode": {
+                            "type": "string",
+                            "example": "IP66"
+                          },
+                          "EnclosureRatingStandard": {
+                            "type": "string",
+                            "example": "nach EN 60529"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "MasterData": {
+                    "type": "object",
+                    "properties": {
+                      "MasterDataMaterial": {
+                        "type": "object",
+                        "properties": {
+                          "Classification": {
+                            "type": "object",
+                            "properties": {
+                              "ECLASS": {
+                                "type": "object",
+                                "properties": {
+                                  "5": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "6": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "7": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "8": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "9": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "10": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "11": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "62": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "81": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  },
+                                  "514": {
+                                    "type": "string",
+                                    "example": 27270904
+                                  }
+                                }
+                              },
+                              "ETIM": {
+                                "type": "object",
+                                "properties": {
+                                  "5": {
+                                    "type": "string",
+                                    "example": "EC002719"
+                                  },
+                                  "6": {
+                                    "type": "string",
+                                    "example": "EC002719"
+                                  },
+                                  "7": {
+                                    "type": "string",
+                                    "example": "EC002719"
+                                  },
+                                  "8": {
+                                    "type": "string",
+                                    "example": "EC002719"
+                                  }
+                                }
+                              },
+                              "UNSPSC": {
+                                "type": "object",
+                                "properties": {
+                                  "160901": {
+                                    "type": "string",
+                                    "example": 39121528
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "GoldenRecord": {
+                            "type": "object",
+                            "properties": {
+                              "ProductSegment": {
+                                "type": "string",
+                                "example": "Lichttaster und Lichtschranken"
+                              },
+                              "ProductFamilyGroup": {
+                                "type": "string",
+                                "example": "Klein-Lichtschranken"
+                              },
+                              "SubProductFamilyGroup": {
+                                "type": "string",
+                                "example": "W16"
+                              },
+                              "ProductFamily": {
+                                "type": "string",
+                                "example": "W16"
+                              },
+                              "SubProductFamily": {
+                                "type": "string",
+                                "example": "WTB16"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "Identification": {
+                        "type": "object",
+                        "properties": {
+                          "TypeId": {
+                            "type": "string",
+                            "example": 1218818
+                          },
+                          "TypeCode": {
+                            "type": "string",
+                            "example": "WTB16I-1H161120A00"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProductAggregateArray": {
+        "type": "array",
+        "items": {
+          "$ref": "//dxh-schemas.dev.misc.k8s.sickcn.net/ProductAggregate.schema.json"
+        }
+      },
+      "ProductAggregate": {
+        "$ref": "//dxh-schemas.dev.misc.k8s.sickcn.net/ProductAggregate.schema.json"
+      },
+      "Channel": {
+        "$ref": "//dxh-schemas.dev.misc.k8s.sickcn.net/ChannelConfig.schema.json"
+      }
+    }
+  }
+}
